@@ -19,6 +19,7 @@ public class MediaScanner {
 		OMDB omdb = new OMDB();
 		//search for show. All results are stored in the object for now
 		omdb.Search("wire");
+		omdb.imdbDetailRetrival("tt0306414");
 		
 		//System.out.println(omdbSearchResults);
 	}
