@@ -16,12 +16,21 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>lib</name>
+			<type>2</type>
+			<locationURI>LIB_LOC</locationURI>
+		</link>
+		<link>
 			<name>src</name>
 			<type>2</type>
 			<locationURI>SRC_LOC</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
+		<variable>
+			<name>LIB_LOC</name>
+			<value>$%7BPARENT-2-PROJECT_LOC%7D/lib</value>
+		</variable>
 		<variable>
 			<name>SRC_LOC</name>
 			<value>$%7BPARENT-2-PROJECT_LOC%7D/src</value>

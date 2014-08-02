@@ -3,14 +3,14 @@
  */
 package com.mediascanner;
 
-import com.mediascanner.databaseAPIs.OMDB;
+import com.mediascanner.database.Database;
+import com.mediascanner.mediadatabaseAPIs.OMDB;
 
 /**
  * @author Alex Wood
  *
  */
 public class MediaScanner {
-
 	/**
 	 * @param args
 	 */
@@ -20,6 +20,9 @@ public class MediaScanner {
 		//search for show. All results are stored in the object for now
 		omdb.Search("wire");
 		omdb.imdbDetailRetrival("tt0306414");
+		
+		Database db = new Database();
+		db.isExtensionValid("mkv");
 		
 		//System.out.println(omdbSearchResults);
 	}

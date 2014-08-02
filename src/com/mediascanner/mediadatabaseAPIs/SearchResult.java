@@ -1,4 +1,4 @@
-package com.mediascanner;
+package com.mediascanner.mediadatabaseAPIs;
 
 public class SearchResult {
 	private String title = null;

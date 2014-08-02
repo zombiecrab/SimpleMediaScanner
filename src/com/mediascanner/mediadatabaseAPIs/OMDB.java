@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mediascanner.databaseAPIs;
+package com.mediascanner.mediadatabaseAPIs;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.mediascanner.SearchResult;
-import com.mediascanner.VideoDetails;
 
 /**
  * @author Alex Wood
