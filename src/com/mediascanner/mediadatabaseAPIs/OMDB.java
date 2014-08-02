@@ -6,9 +6,11 @@ package com.mediascanner.mediadatabaseAPIs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -29,9 +31,11 @@ public class OMDB{
 
 	public void Search (String searchTerm) {
 		String searchContentString = null;
+		String cleanSearchString = toHttpAddress(searchTerm);
 		
 		try {
-			URL omdbUrl = new URL("http://www.omdbapi.com/?s="+searchTerm);
+			URL omdbUrl = new URL("http://www.omdbapi.com/?s="+cleanSearchString);
+			System.out.println(omdbUrl.toString());
 			URLConnection omdbCon = omdbUrl.openConnection();
 			BufferedReader omdbBuff = new BufferedReader(new InputStreamReader(omdbCon.getInputStream()));	
 			
@@ -78,19 +82,23 @@ public class OMDB{
 	
 	public void parseSearchResultJson(String jsonString ) {
 		JSONObject tempMain = new JSONObject(jsonString);
-		searchResults = new ArrayList<SearchResult>();
-		ja = tempMain.getJSONArray("Search");
-		for (int res=0; res<ja.length();res++){
-			SearchResult result = new SearchResult();
-			result.setDate(ja.getJSONObject(res).getString("Year"));
-			result.setTitle(ja.getJSONObject(res).getString("Title"));
-			result.setType(ja.getJSONObject(res).getString("Type"));
-			result.setImdbId(ja.getJSONObject(res).getString("imdbID"));
+		if (tempMain.optString("Response").compareTo("False") != 0){
+			searchResults = new ArrayList<SearchResult>();
+			ja = tempMain.getJSONArray("Search");
+			for (int res=0; res<ja.length();res++){
+				SearchResult result = new SearchResult();
+				result.setDate(ja.getJSONObject(res).getString("Year"));
+				result.setTitle(ja.getJSONObject(res).getString("Title"));
+				result.setType(ja.getJSONObject(res).getString("Type"));
+				result.setImdbId(ja.getJSONObject(res).getString("imdbID"));
+				
+				searchResults.add(result);
+			}
 			
-			searchResults.add(result);
+			System.out.println(searchResults.toString());
+		} else {
+			System.out.println("Error: "+tempMain.optString("Error"));
 		}
-		
-		System.out.println(searchResults.toString());
 	}
 	
 	public VideoDetails parseImdbSearchResultJson(String jsonString ) {
@@ -106,5 +114,16 @@ public class OMDB{
 		videoDetails.setType(videoJson.getString("Type"));
 		
 		return videoDetails;
+	}
+	
+	private String toHttpAddress(String input){
+		System.out.println(input);
+		String ret = null;
+		try {
+			ret = URLEncoder.encode(input, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 }

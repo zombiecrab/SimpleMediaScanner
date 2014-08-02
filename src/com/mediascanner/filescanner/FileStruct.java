@@ -1,6 +1,8 @@
 package com.mediascanner.filescanner;
 
 import java.nio.file.Path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileStruct {
 	
@@ -9,6 +11,8 @@ public class FileStruct {
 	private String extension = null;
 	private String parentFolderName = null;
 	private String fullPath = null;
+	private String cleanTitle = null;
+	private String episodeNumber = null;
 
 	public FileStruct(Path path) {
 		this.fileName = path.getFileName().toString();
@@ -23,6 +27,30 @@ public class FileStruct {
 		this.path = path;		
 	}
 	
+	public void cleanUpFilename(){
+		Pattern s00e00Match = Pattern.compile("[Ss]..[Ee]..");
+		Pattern yearMatch = Pattern.compile("[1900-2050]");
+		
+		Matcher episodeNumber = s00e00Match.matcher(fileName);
+		if (episodeNumber.find()){
+			cleanTitle = fileName.substring(0, episodeNumber.start()-1);
+			this.episodeNumber = episodeNumber.group();
+		}
+		
+		if (cleanTitle != null){
+			Matcher year = yearMatch.matcher(cleanTitle);
+			if (year.find()){
+				cleanTitle = cleanTitle.substring(0, year.start()-1);
+			}
+		} else {
+			Matcher year = yearMatch.matcher(fileName);
+			if (year.find()){
+				cleanTitle = fileName.substring(0, year.start()-1);
+			}
+		}
+		
+	}
+	
 	@Override
 	public String toString(){
 		StringBuilder s = new StringBuilder();
@@ -31,6 +59,7 @@ public class FileStruct {
 		s.append("Extension: "+extension+"\n");
 		s.append("Parent Folder Name: "+parentFolderName+"\n");
 		s.append("Full Path: "+fullPath+"\n");
+		s.append("Clean title: "+cleanTitle+"\n");
 		
 		return s.toString();
 	}
@@ -73,6 +102,14 @@ public class FileStruct {
 
 	public void setFullPath(String fullPath) {
 		this.fullPath = fullPath;
+	}
+
+	public String getCleanTitle() {
+		return cleanTitle;
+	}
+
+	public void setCleanTitle(String cleanTitle) {
+		this.cleanTitle = cleanTitle;
 	}
 
 }

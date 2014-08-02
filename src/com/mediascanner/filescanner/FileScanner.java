@@ -23,7 +23,9 @@ public class FileScanner {
 				if (!(p.toFile().isDirectory())){
 					fileStruct = new FileStruct(p);
 					if (db.isExtensionValid(fileStruct.getExtension()) != null){
-						System.out.println("Found");
+						//System.out.println("Found");
+						fileStruct.cleanUpFilename();
+						//System.out.println(fileStruct.getCleanTitle());
 						fileList.add(fileStruct);
 					}
 				}

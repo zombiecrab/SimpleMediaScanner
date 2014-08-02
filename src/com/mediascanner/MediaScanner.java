@@ -34,8 +34,15 @@ public class MediaScanner {
 		ArrayList<FileStruct> fileStructs = fs.getFileList();
 		
 		System.out.println(fileStructs.size());
-		for(int i=0; i< fileStructs.size();i++){
-			System.out.println(fileStructs.get(i).toString());
+		//for(int i=0; i< fileStructs.size();i++){
+		for (FileStruct fileStruct : fileStructs) {
+			System.out.println(fileStruct.toString());
+			if (fileStruct.getCleanTitle() != null){
+				omdb.Search(fileStruct.getCleanTitle());
+			} else {
+				omdb.Search(fileStruct.getFileName());
+			}
+			
 		}
 
 		

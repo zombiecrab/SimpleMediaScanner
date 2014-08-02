@@ -32,7 +32,7 @@ public class Database {
 
 			if (rs.next()){
 				type = rs.getString("media_type");
-				System.out.println(type);
+				//System.out.println(type);
 			}
 			
 			rs.close();
